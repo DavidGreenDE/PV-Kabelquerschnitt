@@ -1,69 +1,73 @@
-const rho = 0.0178;
-const cables = [6, 10, 16, 25, 35, 50, 70, 95, 120]; // Um größere Kabel ergänzt
+const cables = [1.5, 2.5, 4, 6, 10, 16, 25, 35, 50, 70, 95];
 
+// Elemente Kabel
 const voltage = document.getElementById("voltage");
 const current = document.getElementById("current");
 const length  = document.getElementById("length");
 const line    = document.getElementById("line");
+const material = document.getElementById("material");
 const out     = document.getElementById("out");
 
-// Displays
-const vVal = document.getElementById("v-val");
-const cVal = document.getElementById("c-val");
-const lVal = document.getElementById("l-val");
+// Elemente Batterie
+const battCap = document.getElementById("batt-cap");
+const loadW = document.getElementById("load-w");
+const battOut = document.getElementById("batt-out");
 
 function setVoltage(v) {
-  voltage.value = v;
-  calc();
+    voltage.value = v;
+    calc();
 }
 
-[voltage, current, length, line].forEach(e =>
-  e.addEventListener("input", calc)
+[voltage, current, length, line, material, battCap, loadW].forEach(e =>
+    e.addEventListener("input", calc)
 );
 
 function calc() {
-  // Update der Anzeige-Texte
-  vVal.innerText = voltage.value;
-  cVal.innerText = current.value;
-  lVal.innerText = length.value;
+    // 1. KABEL BERECHNUNG
+    const V = parseFloat(voltage.value);
+    const I = parseFloat(current.value);
+    const L = parseFloat(length.value) * 2;
+    const maxDropPercent = parseFloat(line.value);
+    const rho = parseFloat(material.value);
 
-  const V = parseFloat(voltage.value);
-  const I = parseFloat(current.value);
-  const L = parseFloat(length.value) * 2;
-  const maxDrop = parseFloat(line.value);
+    document.getElementById("v-val").innerText = V;
+    document.getElementById("c-val").innerText = I;
+    document.getElementById("l-val").innerText = parseFloat(length.value).toFixed(1);
 
-  let best = null;
-  let perfect = null;
-
-  for (let A of cables) {
-    const dV = (L * I * rho) / A;
+    let perfect = cables.find(A => ((L * I * rho) / A) / V * 100 <= maxDropPercent);
+    const rA = perfect || cables[cables.length - 1];
+    const dV = (L * I * rho) / rA;
     const dVp = (dV / V) * 100;
+    
+    // Sicherungsempfehlung (I * 1.25 Sicherheitsfaktor)
+    const fuse = Math.ceil((I * 1.25) / 5) * 5;
 
-    if (!perfect && dVp <= maxDrop) {
-      perfect = {A, dV, dVp};
-    }
-    best = {A, dV, dVp};
-  }
+    out.innerHTML = `
+        <div class="result">
+            <small>Empfohlener Querschnitt:</small>
+            <h2 style="color:#2ecc71; margin:5px 0;">${rA} mm²</h2>
+            <p>Verlust: ${dVp.toFixed(2)}% (${dV.toFixed(2)}V)</p>
+            <p>Sicherung: <b>ca. ${fuse}A</b></p>
+        </div>
+    `;
 
-  const r = perfect || best;
-  const loss = r.dV * I;
+    // 2. BATTERIE BERECHNUNG
+    const Ah = parseFloat(battCap.value);
+    const W = parseFloat(loadW.value);
+    document.getElementById("batt-val").innerText = Ah;
+    document.getElementById("load-val").innerText = W;
 
-  let hint = "";
-  if (!perfect) {
-    hint = `<p class="warn">⚠ Limit von ${maxDrop}% überschritten!</p>`;
-  }
+    const totalWh = Ah * V * 0.8; // Rechnet mit 80% Nutzbarkeit (Lithium/GEL Mix)
+    const hours = W > 0 ? totalWh / W : 0;
+    const days = (hours / 24).toFixed(1);
 
-  out.innerHTML = `
-    <div class="result">
-      <small>Empfohlener Querschnitt:</small>
-      <h2 style="margin:0; color:#2ecc71;">${r.A} mm²</h2>
-      <hr style="border:0; border-top:1px solid #333; margin:10px 0;">
-      <p>Verlust: <b>${r.dVp.toFixed(2)} %</b> (${r.dV.toFixed(2)} V)</p>
-      <p>Verlustleistung: <b>${loss.toFixed(1)} W</b></p>
-      ${hint}
-    </div>
-  `;
+    battOut.innerHTML = `
+        <div class="result">
+            <p>Laufzeit (bei 80% Entladung):</p>
+            <h2 style="color:#3498db; margin:5px 0;">${hours.toFixed(1)} Std.</h2>
+            <small>entspricht ca. ${days} Tagen</small>
+        </div>
+    `;
 }
 
-// Initialer Aufruf
 calc();
