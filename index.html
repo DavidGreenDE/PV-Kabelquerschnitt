@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PV Kabelquerschnitt</title>
+
+<link rel="stylesheet" href="style.css">
+<link rel="manifest" href="manifest.json">
+
+</head>
+<body>
+
+<h1>PV Kabelquerschnitt</h1>
+
+<div class="presets">
+  <button onclick="setVoltage(12)">12 V</button>
+  <button onclick="setVoltage(24)">24 V</button>
+  <button onclick="setVoltage(48)">48 V</button>
+</div>
+
+<label>Spannung (V)</label>
+<input id="voltage" type="text" value="14,4" inputmode="decimal">
+
+<label>Strom (A)</label>
+<input id="current" type="text" value="100" inputmode="decimal">
+
+<label>Kabellänge einfach (m)</label>
+<input id="length" type="text" value="1,5" inputmode="decimal">
+
+<label>Leitung</label>
+<select id="line">
+  <option value="1">MPPT → Batterie</option>
+  <option value="2">Batterie → Wechselrichter</option>
+  <option value="3">Batterie → Verbraucher</option>
+  <option value="2">PV → MPPT</option>
+</select>
+
+<div id="out"></div>
+
+<script src="app.js"></script>
+</body>
+</html>

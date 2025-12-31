@@ -1,0 +1,56 @@
+body {
+  background:#0f0f0f;
+  color:#eee;
+  font-family:system-ui;
+  max-width:380px;
+  margin:auto;
+  padding:12px;
+}
+
+h1 {
+  margin-bottom:12px;
+}
+
+label {
+  display:block;
+  margin-top:14px;
+}
+
+input, select {
+  width:100%;
+  padding:12px;
+  margin-top:4px;
+  border-radius:6px;
+  border:none;
+  font-size:16px;
+}
+
+.presets {
+  display:flex;
+  gap:8px;
+  margin-bottom:12px;
+}
+
+.presets button {
+  flex:1;
+  padding:10px;
+  border:none;
+  background:#2ecc71;
+  font-weight:bold;
+  border-radius:6px;
+}
+
+.result {
+  margin-top:20px;
+  padding:14px;
+  background:#1c1c1c;
+  border-radius:10px;
+}
+
+.warn {
+  color:#f1c40f;
+}
+
+.ok {
+  color:#2ecc71;
+}
