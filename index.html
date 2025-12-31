@@ -3,48 +3,69 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>PV Kabelrechner</title>
+    <title>Offgrid Planer</title>
     <link rel="apple-touch-icon" href="icon-192.png">
     <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    
     <link rel="stylesheet" href="style.css">
     <link rel="manifest" href="manifest.json">
 </head>
 <body>
 
-<h1>PV Kabelquerschnitt</h1>
+<h1>Offgrid Planer</h1>
 
-<div class="presets">
-  <button onclick="setVoltage(12)">12 V</button>
-  <button onclick="setVoltage(24)">24 V</button>
-  <button onclick="setVoltage(48)">48 V</button>
+<div class="section">
+    <h3>Kabel & Sicherung</h3>
+    <div class="presets">
+        <button onclick="setVoltage(12)">12V</button>
+        <button onclick="setVoltage(24)">24V</button>
+        <button onclick="setVoltage(48)">48V</button>
+    </div>
+
+    <div class="input-group">
+        <label>Material: <span id="mat-name">Kupfer</span></label>
+        <select id="material">
+            <option value="0.0178">Kupfer (Standard)</option>
+            <option value="0.028">Aluminium</option>
+        </select>
+    </div>
+
+    <div class="input-group">
+        <label>Spannung: <span id="v-val">12</span> V</label>
+        <input id="voltage" type="range" min="1" max="150" step="0.5" value="12">
+    </div>
+
+    <div class="input-group">
+        <label>Stromstärkte: <span id="c-val">20</span> A</label>
+        <input id="current" type="range" min="1" max="300" step="1" value="20">
+    </div>
+
+    <div class="input-group">
+        <label>Länge (einfach): <span id="l-val">5</span> m</label>
+        <input id="length" type="range" min="0.2" max="20" step="0.2" value="5">
+    </div>
+
+    <label>Anwendung (Verlust-Limit)</label>
+    <select id="line">
+        <option value="1">Batterie Ladung (1%)</option>
+        <option value="2">Wechselrichter (2%)</option>
+        <option value="3">Licht/USB (3%)</option>
+    </select>
+
+    <div id="out"></div>
 </div>
 
-<div class="input-group">
-    <label>Spannung: <span id="v-val">14.4</span> V</label>
-    <input id="voltage" type="range" min="1" max="150" step="0.2" value="14.4">
+<div class="section">
+    <h3>Batterie-Autarkie</h3>
+    <div class="input-group">
+        <label>Batteriekapazität: <span id="batt-val">100</span> Ah</label>
+        <input id="batt-cap" type="range" min="10" max="600" step="10" value="100">
+    </div>
+    <div class="input-group">
+        <label>Dauerlast Verbrauch: <span id="load-val">50</span> W</label>
+        <input id="load-w" type="range" min="0" max="2000" step="10" value="50">
+    </div>
+    <div id="batt-out"></div>
 </div>
-
-<div class="input-group">
-    <label>Strom: <span id="c-val">100</span> A</label>
-    <input id="current" type="range" min="1" max="200" step="1" value="0">
-</div>
-
-<div class="input-group">
-    <label>Kabellänge (einfach): <span id="l-val">1.5</span> m</label>
-    <input id="length" type="range" min="0.2" max="10" step="0.2" value="0">
-</div>
-
-<label>Leitungs-Typ</label>
-<select id="line">
-  <option value="1">MPPT → Batterie (1%)</option>
-  <option value="2">Batterie → Wechselrichter (2%)</option>
-  <option value="3">Batterie → Verbraucher (3%)</option>
-  <option value="2">PV → MPPT (2%)</option>
-</select>
-
-<div id="out"></div>
 
 <script src="app.js"></script>
 </body>
