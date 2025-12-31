@@ -1,56 +1,84 @@
 body {
   background:#0f0f0f;
   color:#eee;
-  font-family:system-ui;
-  max-width:380px;
+  font-family: -apple-system, system-ui, sans-serif;
+  max-width:400px;
   margin:auto;
-  padding:12px;
+  padding:20px;
+  line-height: 1.4;
 }
 
-h1 {
-  margin-bottom:12px;
+h1 { font-size: 24px; text-align: center; }
+
+.input-group {
+  margin-top: 20px;
 }
 
 label {
-  display:block;
-  margin-top:14px;
+  display: flex;
+  justify-content: space-between;
+  font-size: 14px;
+  color: #bbb;
 }
 
-input, select {
-  width:100%;
-  padding:12px;
-  margin-top:4px;
-  border-radius:6px;
-  border:none;
-  font-size:16px;
+label span {
+  color: #2ecc71;
+  font-weight: bold;
+  font-size: 18px;
+}
+
+input[type=range] {
+  width: 100%;
+  height: 15px;
+  -webkit-appearance: none;
+  background: #333;
+  border-radius: 10px;
+  margin-top: 10px;
+}
+
+/* Slider-Knopf für iOS */
+input[type=range]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 26px;
+  height: 26px;
+  background: #2ecc71;
+  border-radius: 50%;
+  cursor: pointer;
+}
+
+select {
+  width: 100%;
+  padding: 12px;
+  background: #333;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  margin-top: 8px;
+  font-size: 16px;
 }
 
 .presets {
-  display:flex;
-  gap:8px;
-  margin-bottom:12px;
+  display: flex;
+  gap: 8px;
+  margin: 20px 0;
 }
 
 .presets button {
-  flex:1;
-  padding:10px;
-  border:none;
-  background:#2ecc71;
-  font-weight:bold;
-  border-radius:6px;
+  flex: 1;
+  padding: 12px;
+  border: none;
+  background: #444;
+  color: white;
+  border-radius: 8px;
+  font-weight: bold;
 }
 
 .result {
-  margin-top:20px;
-  padding:14px;
-  background:#1c1c1c;
-  border-radius:10px;
+  margin-top: 25px;
+  padding: 20px;
+  background: #1c1c1c;
+  border-radius: 15px;
+  border: 1px solid #333;
 }
 
-.warn {
-  color:#f1c40f;
-}
-
-.ok {
-  color:#2ecc71;
-}
+.warn { color: #ff4757; font-weight: bold; }

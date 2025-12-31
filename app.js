@@ -1,5 +1,5 @@
 const rho = 0.0178;
-const cables = [6,10,16,25,35,50,70];
+const cables = [6, 10, 16, 25, 35, 50, 70, 95, 120]; // Um größere Kabel ergänzt
 
 const voltage = document.getElementById("voltage");
 const current = document.getElementById("current");
@@ -7,9 +7,10 @@ const length  = document.getElementById("length");
 const line    = document.getElementById("line");
 const out     = document.getElementById("out");
 
-function num(el) {
-  return parseFloat(el.value.replace(",", "."));
-}
+// Displays
+const vVal = document.getElementById("v-val");
+const cVal = document.getElementById("c-val");
+const lVal = document.getElementById("l-val");
 
 function setVoltage(v) {
   voltage.value = v;
@@ -21,22 +22,22 @@ function setVoltage(v) {
 );
 
 function calc() {
-  const V = num(voltage);
-  const I = num(current);
-  const L = num(length) * 2;
-  const maxDrop = parseFloat(line.value);
+  // Update der Anzeige-Texte
+  vVal.innerText = voltage.value;
+  cVal.innerText = current.value;
+  lVal.innerText = length.value;
 
-  if ([V,I,L].some(isNaN)) {
-    out.innerHTML = "";
-    return;
-  }
+  const V = parseFloat(voltage.value);
+  const I = parseFloat(current.value);
+  const L = parseFloat(length.value) * 2;
+  const maxDrop = parseFloat(line.value);
 
   let best = null;
   let perfect = null;
 
   for (let A of cables) {
     const dV = (L * I * rho) / A;
-    const dVp = dV / V * 100;
+    const dVp = (dV / V) * 100;
 
     if (!perfect && dVp <= maxDrop) {
       perfect = {A, dV, dVp};
@@ -49,31 +50,20 @@ function calc() {
 
   let hint = "";
   if (!perfect) {
-    hint = `<p class="warn">
-      ⚠ Zielwert (${maxDrop} %) überschritten.<br>
-      Kürzere Leitung oder höhere Spannung empfohlen.
-    </p>`;
-  }
-
-  // Spannungshinweis
-  const alt = [24,48].find(v => v > V);
-  if (alt) {
-    const test = cables.find(A =>
-      ((L * I * rho) / A) / alt * 100 <= maxDrop
-    );
-    if (test) {
-      hint += `<p class="ok">
-        ℹ Mit ${alt} V wären ${test} mm² ausreichend.
-      </p>`;
-    }
+    hint = `<p class="warn">⚠ Limit von ${maxDrop}% überschritten!</p>`;
   }
 
   out.innerHTML = `
     <div class="result">
-      <h3>Empfohlen: ${r.A} mm²</h3>
-      <p>Spannungsabfall: ${r.dVp.toFixed(2)} %</p>
-      <p>Verlustleistung: ${loss.toFixed(1)} W</p>
+      <small>Empfohlener Querschnitt:</small>
+      <h2 style="margin:0; color:#2ecc71;">${r.A} mm²</h2>
+      <hr style="border:0; border-top:1px solid #333; margin:10px 0;">
+      <p>Verlust: <b>${r.dVp.toFixed(2)} %</b> (${r.dV.toFixed(2)} V)</p>
+      <p>Verlustleistung: <b>${loss.toFixed(1)} W</b></p>
       ${hint}
     </div>
   `;
 }
+
+// Initialer Aufruf
+calc();
