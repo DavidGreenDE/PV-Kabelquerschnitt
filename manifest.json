@@ -1,7 +1,7 @@
 {
-  "short_name": "OffgridPlan",
-  "name": "Offgrid PV Planer",
-  "description": "Planungstool für Kabelquerschnitte und Batterie-Autarkie.",
+  "short_name": "OffgridPro",
+  "name": "Offgrid Pro PV Planer",
+  "description": "All-in-One Planungstool für Kabel, Solar-Ertrag und Batterie-Autarkie.",
   "icons": [
     {
       "src": "icon-192.png",
@@ -16,7 +16,7 @@
     }
   ],
   "start_url": "index.html",
-  "background_color": "#0f0f0f",
+  "background_color": "#0a0a0a",
   "display": "standalone",
   "scope": "./",
   "theme_color": "#2ecc71",
