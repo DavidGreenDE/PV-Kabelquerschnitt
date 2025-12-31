@@ -1,6 +1,7 @@
 {
-  "short_name": "PV Rechner",
-  "name": "PV Kabelquerschnitt Rechner",
+  "short_name": "OffgridPlan",
+  "name": "Offgrid PV Planer",
+  "description": "Planungstool für Kabelquerschnitte und Batterie-Autarkie.",
   "icons": [
     {
       "src": "icon-192.png",
@@ -18,6 +19,6 @@
   "background_color": "#0f0f0f",
   "display": "standalone",
   "scope": "./",
-  "theme_color": "#0f0f0f",
-  "description": "Berechnung von Kabelquerschnitten für PV-Anlagen"
+  "theme_color": "#2ecc71",
+  "orientation": "portrait"
 }
